@@ -11,11 +11,17 @@ class Invoice extends Model
 
     protected $fillable = [
         'user_id',
+        'due_date',
         'product_id',
         'payment_method',
         'price',
         'paid',
-        'paid_at'
+        'paid_at',
+        'uuid'
+    ];
+
+    protected $casts = [
+        'due_date' => 'datetime'
     ];
 
     public function user()
@@ -26,5 +32,9 @@ class Invoice extends Model
     public function products()
     {
         $this->hasMany(UserProducts::class);
+    }
+
+    public function paypalToken() {
+        $this->hasMany(PaypalTokens::class);
     }
 }

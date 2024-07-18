@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\UserProducts;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UserProductsController extends Controller
 {
@@ -12,7 +14,16 @@ class UserProductsController extends Controller
      */
     public function index()
     {
-        //
+        $user = User::find(auth()->user()->id);
+
+        $user_products = [];
+        $data = $user->products()->get();
+        foreach ($data as $product) {
+            $user_products[] = ["id" => $product->id, "name" => $product->product->name];
+        }
+        return Inertia::render('UserProducts', [
+            'user_products' => $user_products,
+        ]);
     }
 
     /**

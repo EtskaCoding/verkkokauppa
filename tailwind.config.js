@@ -9,7 +9,12 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
     ],
-
+    darkMode: 'selector',
+    safelist: [
+        'bg-yellow-500',
+        'bg-green-500',
+        'bg-red-600',
+    ],
     theme: {
         extend: {
             fontFamily: {

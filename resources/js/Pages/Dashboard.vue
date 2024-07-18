@@ -12,7 +12,7 @@ const props = defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Dashboard</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Tilaa</h2>
         </template>
 
         <div class="py-12">
@@ -21,11 +21,17 @@ const props = defineProps({
                     <li
                         v-for="product in products"
                         :key="product.id"
-                        class="relative bg-gray-400 hover:bg-gray-600  rounded-md min-h-[7rem]">
+                        class="relative bg-gray-400 hover:bg-gray-600 rounded-md min-h-[7rem]">
                         <Link :href="route('product.show', {id: product.id})"
-                              class="text-gray-900 hover:text-gray-900 text-lg font-bold absolute inset-0">
-                            {{ product.name }}
+                              class="grid grid-cols-1 justify-items-center p-8">
+                            <div class="text-white text-lg font-bold">
+                                {{ product.name }}
+                            </div>
+                            <div class="text-xs font-bold">
+                                {{ product.price }}€/kk
+                            </div>
                         </Link>
+
                     </li>
                 </ul>
             </div>

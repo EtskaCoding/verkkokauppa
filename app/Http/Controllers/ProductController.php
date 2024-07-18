@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use App\Models\Product;
 use App\Models\UserProducts;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\InvoiceController;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -58,6 +62,14 @@ class ProductController extends Controller
         $user_id = Auth::id();
 
         $user_product = UserProducts::create(['product_id' => $product->id, 'user_id' => $user_id]);
+
+        $invoice_uuid = str()->random(8);
+        $invoice = Invoice::create(['product_id' => $user_product->id, 'due_date' => Carbon::now()->toDateTimeString(), 'user_id' => $user_id, 'payment_method' => 'paypal', 'price' => $product->price, 'paid' => 0, 'paid_at' => null, 'uuid' => $invoice_uuid]);
+
+        $invoiceController = new InvoiceController();
+        $json = json_decode($invoiceController->paypalRedirect($invoice), true);
+
+        return Inertia::location($json["url"]);
     }
 
 }

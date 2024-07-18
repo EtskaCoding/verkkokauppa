@@ -16,7 +16,7 @@ class UserProducts extends Model
 
     public function product()
     {
-        $this->hasOne(Product::class);
+        return $this->belongsTo(Product::class);
     }
 
     public function invoice()
